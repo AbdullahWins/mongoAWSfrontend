@@ -3,6 +3,9 @@ import axios from "axios";
 
 function FileUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
+  console.log(baseUrl);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -14,15 +17,11 @@ function FileUpload() {
       formData.append("file", selectedFile);
 
       // Make a request to your backend API endpoint
-      const response = await axios.post(
-        "http://localhost:3000/api/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`${baseUrl}/api/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       // Access the public URL from the response
       const publicURL = response.data.publicURL;
