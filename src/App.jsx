@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function FileUpload() {
+function App() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [responseUrl, setResponseUrl] = useState("");
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
-  console.log(baseUrl);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -26,8 +25,8 @@ function FileUpload() {
       // Access the public URL from the response
       const publicURL = response.data.publicURL;
 
-      // Use the publicURL as needed (e.g., store it in MongoDB)
-      // ...
+      // Set the response URL in state
+      setResponseUrl(publicURL);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -37,8 +36,9 @@ function FileUpload() {
     <div>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload</button>
+      {responseUrl && <p>Response URL: {responseUrl}</p>}
     </div>
   );
 }
 
-export default FileUpload;
+export default App;
